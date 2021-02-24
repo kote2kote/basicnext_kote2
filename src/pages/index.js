@@ -1,7 +1,9 @@
 import LayoutDefault from 'components/layout/LayoutDefault';
-export default function Index() {
+import { getMenuData } from 'lib/api';
+
+export default function Index({ props }) {
   return (
-    <LayoutDefault title='Index'>
+    <LayoutDefault title='Index' menuData={props.menus}>
       <main className='main w-full'>
         <div className='inner px-8'>
           <h2 className='c-tail mb-8'>メイン</h2>
@@ -18,4 +20,25 @@ export default function Index() {
       </main>
     </LayoutDefault>
   );
+}
+
+export async function getStaticProps() {
+  let props = {};
+  props.menus = await getMenuData();
+  // const query = {
+  //   type: 'posts',
+  //   // orderby: 'date',
+  //   per_page: process.env.blogNumOfDis,
+  //   // page: 1,
+  //   // categories: [],
+  //   // tags: [],
+  //   // search: '',
+  //   // _embed: 1,
+  //   info: 'index getStaticProps',
+  // };
+  // props.posts = await getAllPosts(query);
+  return {
+    props: { props },
+    // revalidate: 5,
+  };
 }

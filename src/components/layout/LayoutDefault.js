@@ -5,12 +5,12 @@ import Footer from 'components/common/Footer';
 import Sidebar from 'components/common/Sidebar';
 
 // redux
-import { getMenuState, setTest } from 'lib/slices/menuSlice';
+import { getTestState, setTest } from 'lib/slices/testSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
-export default function LayoutDefault({ children, title = '' }) {
+export default function LayoutDefault({ children, title = '', menuData }) {
   // ===========> open/close menu
-  const menuState = useSelector(getMenuState);
+  const testState = useSelector(getTestState);
   const dispatch = useDispatch();
   function funcTest() {
     dispatch(setTest());
@@ -25,10 +25,9 @@ export default function LayoutDefault({ children, title = '' }) {
         </Head>
 
         <Header />
-        {menuState.test}
-        {process.env.MAIN_URL}
+
         <div className='flex flex-grow pt-4'>
-          <Sidebar />
+          <Sidebar menuData={menuData} />
           {children}
         </div>
 
