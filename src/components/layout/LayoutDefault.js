@@ -15,6 +15,7 @@ export default function LayoutDefault({ children, title = '' }) {
   function funcTest() {
     dispatch(setTest());
   }
+  funcTest();
 
   return (
     <>
@@ -25,6 +26,7 @@ export default function LayoutDefault({ children, title = '' }) {
 
         <Header />
         {menuState.test}
+        {process.env.MAIN_URL}
         <div className='flex flex-grow pt-4'>
           <Sidebar />
           {children}
