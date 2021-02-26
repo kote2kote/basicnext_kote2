@@ -60,3 +60,41 @@ export async function getAllPosts(query) {
 
   return tmpPosts;
 }
+
+// ==================================================
+// getAllPostSlugs
+// ==================================================
+export async function getAllPostSlugs() {
+  // let slugs = [];
+  const i = 1;
+  // for (let i = 1; i < 12; i++) {
+  // const element = array[index];
+  const res = await fetch(`${process.env.MAIN_REST_API}/posts?per_page=100&page=${i}&_embed=1`);
+  const tmp = await res.json();
+  //   console.log(tmp[0]);
+  //   for (let n of tmp) {
+  //     slugs.push(n.slug);
+  //   }
+  // }
+
+  return tmp.map((slug) => {
+    return {
+      params: {
+        slug: String(slug),
+      },
+    };
+  });
+}
+
+// ==================================================
+// getPost
+// ==================================================
+export async function getPost(slug) {
+  const res = await fetch(`${process.env.MAIN_REST_API}/posts?_embed&slug=${slug}`);
+  const tmp = await res.json();
+  // console.log(post[0]);
+  const tmpPost = tmp[0];
+  console.log(tmpPost.name);
+
+  return tmpPost;
+}
