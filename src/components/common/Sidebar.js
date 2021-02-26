@@ -13,37 +13,12 @@ export default function Sidebar({ menuData = [] }) {
       <ul>
         {menuData &&
           menuData.map((n) => (
-            <li>
+            <li key={n.id}>
               <Link href={`/${n.dir}/${n.slug}`}>
-                <a>{n.title}</a>
+                <a className='underline'>{n.title}</a>
               </Link>
             </li>
           ))}
-        {/* {menuData &&
-          menuData.map(
-            (n) =>
-              n.object === 'category' && (
-                <li>
-                  <Link href={`/category/${n.slug}`}>
-                    <a>{n.title}</a>
-                  </Link>
-                </li>
-              ),
-            n.object === 'page' && (
-              <li>
-                <Link href={`/category/${n.object_slug}`}>
-                  <a>{n.title}</a>
-                </Link>
-              </li>
-            ),
-            n.object !== 'category' && n.object !== 'page' && (
-              <li>
-                <Link href={`/cpt/${n.object_slug}`}>
-                  <a>{n.title}</a>
-                </Link>
-              </li>
-            )
-          )} */}
       </ul>
     </aside>
   );

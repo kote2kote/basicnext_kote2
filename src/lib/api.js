@@ -34,3 +34,29 @@ export async function getMenuData() {
   }
   return tmpMenuDataEdit;
 }
+
+// ==================================================
+// 記事一覧の取得
+// ==================================================
+export async function getAllPosts(query) {
+  console.log(query);
+  let tmpPosts = [];
+  let i = 1;
+
+  const newQuery = `
+    ${process.env.MAIN_REST_API}/posts?_embed&per_page=${
+    query.per_page ? query.per_page : process.env.PER_PAGES
+  }&page=${query.page ? query.page : i}&categories=${
+    query.categories ? query.categories : []
+  }&categories_exclude=1&tags=${query.tags ? query.tags : []}&search=${
+    query.search ? query.search : ''
+  }
+    `;
+  console.log(newQuery);
+  // tmpPosts = await this.$axios.$get(newQuery);
+  const res = await fetch(newQuery);
+  tmpPosts = await res.json();
+  // console.log(tmpPosts);
+
+  return tmpPosts;
+}
