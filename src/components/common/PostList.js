@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import uniqid from 'uniqid';
 export default function PostList({ propsPosts }) {
   // console.log('ああ');
   // console.log(propsPosts[0]);
@@ -17,7 +18,7 @@ export default function PostList({ propsPosts }) {
     <div className='PostList'>
       <ul>
         {propsPosts.map((n) => (
-          <li key={n.id} className='p-4 relative z-10 hover:bg-gray-300 cursor-pointer"'>
+          <li key={uniqid()} className='p-4 relative z-10 hover:bg-gray-300 cursor-pointer"'>
             <a className='card-link' href={`/post/${n.slug}`}>
               <h4 className='c-tail mb-4'>{n.title.rendered}</h4>
               <div className='flex'>
@@ -33,6 +34,7 @@ export default function PostList({ propsPosts }) {
                 </figure>
                 <div className='w-full px-6'>
                   <div dangerouslySetInnerHTML={{ __html: setWordCount(n.excerpt.rendered) }}></div>
+                  {/* <div>{n.id}</div> */}
                   <div className='pt-4'>
                     <span className='font-bold'>カテゴリ: </span>
                     <span className='inline-block px-1'>
@@ -45,7 +47,7 @@ export default function PostList({ propsPosts }) {
                   <div className='pt-2'>
                     <span className='font-bold'>タグ: </span>
                     {n.tags.map((nn) => (
-                      <span key={nn.id} className='inline-block px-1'>
+                      <span key={uniqid()} className='inline-block px-1'>
                         <Link href={`/tag/${nn.slug}`}>
                           <a className='relative underline'>{nn.name}</a>
                         </Link>

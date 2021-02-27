@@ -5,38 +5,41 @@ import fetch from 'node-fetch';
 // ==================================================
 export async function getMenuData() {
   const res = await fetch(process.env.MAIN_MENU_API);
-  const tmpMenuData = await res.json();
+  const res2 = await res.json();
+  const tmpMenuData = res2.items;
+  const tmpCatData = await getCatData(); // menuにはslugがないのでカテゴリデータのslugを結合
 
-  // ===========> menuにはslugがないのでカテゴリデータのslugを結合
-  const res2 = await fetch(new URL(`${process.env.MAIN_REST_API}/categories?per_page=100`));
-  const tmpCatData = await res2.json();
-
+  // ディレクトリ名とスラッグを結合
+  // ================================= //
   let tmpMenuDataEdit = [];
-  for (const n of tmpMenuData.items) {
-    let tmp = n;
-    for (const nn of tmpCatData) {
-      if (n.object_id === nn.id) {
-        tmp.slug = nn.slug;
-      } else {
-        tmp.slug = tmp.object_slug;
+  for (const n of tmpMenuData) {
+    // カテゴリーの場合
+    if (n.object === 'category') {
+      n.dir = 'category';
+      for (const nn of tmpCatData) {
+        if (n.object_id === nn.id) {
+          n.slug = nn.slug;
+        }
       }
     }
-
-    // add dir name
-    if (tmp.object === 'category') {
-      tmp.dir = 'category';
-    } else if (tmp.object === 'page') {
-      tmp.dir = 'page';
-    } else {
-      tmp.dir = 'cpt';
+    // 固定ページの場合
+    else if (n.object === 'page') {
+      n.dir = 'page';
+      n.slug = n.object_slug;
     }
-    tmpMenuDataEdit.push(tmp);
+    // CPTの場合
+    else {
+      n.dir = 'cpt';
+      n.slug = n.object_slug;
+    }
+
+    tmpMenuDataEdit.push(n);
   }
   return tmpMenuDataEdit;
 }
 
 // ==================================================
-// 記事一覧の取得
+// getAllPosts
 // ==================================================
 export async function getAllPosts(query) {
   console.log(query);
@@ -94,7 +97,44 @@ export async function getPost(slug) {
   const tmp = await res.json();
   // console.log(post[0]);
   const tmpPost = tmp[0];
-  console.log(tmpPost.name);
+  // console.log(tmpPost.name);
 
   return tmpPost;
+}
+
+// ==================================================
+// getAllCatSlugs
+// ==================================================
+export async function getAllCatSlugs() {
+  const res = await fetch(`${process.env.MAIN_REST_API}/categories?_embed&per_page=100`);
+  const tmp = await res.json();
+  // console.log(tmp);
+
+  let tmpCatSlugs = [];
+  for (let n of tmp) {
+    tmpCatSlugs.push(n.slug);
+  }
+  // console.log(tmpCatSlugs);
+
+  return tmpCatSlugs.map((slug) => {
+    // console.log(slug);
+    return {
+      params: {
+        category: String(slug),
+      },
+    };
+  });
+}
+
+// ==================================================
+// getCatData
+// ==================================================
+export async function getCatData(slug = '') {
+  const res = await fetch(`${process.env.MAIN_REST_API}/categories?_embed&slug=${slug}`);
+  const tmp = await res.json();
+  // console.log(tmp);
+  // const tmpCatData = tmp[0];
+  // console.log(tmpCatData.name);
+
+  return tmp;
 }

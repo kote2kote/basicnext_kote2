@@ -11,7 +11,12 @@ export default function Sidebar({ menuData = [] }) {
       </style>
       <h5 className='c-tail'>カテゴリメニュー</h5>
       <ul>
-        {menuData &&
+        <li>
+          <Link href='/'>
+            <a className='underline'>トップページ</a>
+          </Link>
+        </li>
+        {menuData.length !== 0 &&
           menuData.map((n) => (
             <li key={n.id}>
               <Link href={`/${n.dir}/${n.slug}`}>

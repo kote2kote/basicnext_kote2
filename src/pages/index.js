@@ -50,6 +50,6 @@ export async function getStaticProps() {
   // console.log('aaa');
   return {
     props: { props },
-    // revalidate: 5,
+    revalidate: 5,
   };
 }
