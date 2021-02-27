@@ -1,8 +1,8 @@
 import LayoutDefault from 'components/layout/LayoutDefault';
-import { getAllPosts, getMenuData, getCatData, getAllCatSlugs } from 'lib/api';
+import { getAllPosts, getMenuData, getAllTagSlugs, getTagData } from 'lib/api';
 import PostList from 'components/common/PostList';
 
-export default function Category({ props }) {
+export default function Tag({ props }) {
   // if (!props) {
   //   console.log('bbb');
   //   return '';
@@ -10,10 +10,10 @@ export default function Category({ props }) {
   // console.log(props.allPostsData);
   // console.log('ccc');
   return (
-    <LayoutDefault title='Category' menuData={props.menusData}>
+    <LayoutDefault title='Tag' menuData={props.menusData}>
       <main className='main w-full'>
         <div className='inner px-8'>
-          <h2 className='c-tail mb-8'>カテゴリ: {props.name}</h2>
+          <h2 className='c-tail mb-8'>タグ: {props.name}</h2>
           <PostList propsPosts={props.allPostsData} />
         </div>
       </main>
@@ -22,7 +22,7 @@ export default function Category({ props }) {
 }
 
 export async function getStaticPaths() {
-  const paths = await getAllCatSlugs();
+  const paths = await getAllTagSlugs();
   return {
     paths,
     fallback: true,
@@ -33,12 +33,12 @@ export async function getStaticProps({ params }) {
   let props = {};
   props.menusData = await getMenuData();
 
-  const tmpCatSlug = await params.category;
-  const tmpCatData = await getCatData(tmpCatSlug);
-  props.name = tmpCatData[0].name;
+  const tmpSlug = await params.tag;
+  const tmpData = await getTagData(tmpSlug);
+  props.name = tmpData[0].name;
 
-  // カテゴリが[]は404
-  if (!tmpCatData.length) {
+  // 404
+  if (!tmpData.length) {
     console.log('404');
     return {
       notFound: true,
@@ -46,17 +46,17 @@ export async function getStaticProps({ params }) {
   }
 
   let query = [];
-  if (tmpCatData.length !== 0) {
+  if (tmpData.length !== 0) {
     query = {
       type: 'posts',
       // orderby: 'date',
       // per_page: process.env.blogNumOfDis,
       // page: 1,
-      categories: tmpCatData[0].id,
-      // tags: [],
+      // categories: tmpCatData[0].id,
+      tags: tmpData[0].id,
       // search: '',
       // _embed: 1,
-      info: `category getStaticProps ${tmpCatData[0].slug}`,
+      info: `tag getStaticProps ${tmpData[0].slug}`,
     };
     props.allPostsData = await getAllPosts(query);
   }

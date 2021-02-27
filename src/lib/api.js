@@ -138,3 +138,34 @@ export async function getCatData(slug = '') {
 
   return tmp;
 }
+
+// ==================================================
+// getAllTagSlugs
+// ==================================================
+export async function getAllTagSlugs() {
+  const res = await fetch(`${process.env.MAIN_REST_API}/tags?_embed&per_page=100`);
+  const tmp = await res.json();
+
+  let tags = [];
+  for (let n of tmp) {
+    tags.push(n.slug);
+  }
+  return tags.map((tag) => {
+    return {
+      params: {
+        tag: String(tag),
+      },
+    };
+  });
+}
+
+// ==================================================
+// getTagData
+// ==================================================
+export async function getTagData(slug = '') {
+  console.log('tag');
+  console.log(slug);
+  const res = await fetch(`${process.env.MAIN_REST_API}/tags?_embed&slug=${slug}&per_page=100`);
+  const tmp = await res.json();
+  return tmp;
+}
