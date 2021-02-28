@@ -42,12 +42,12 @@ export async function getMenuData() {
 // getAllPosts
 // ==================================================
 export async function getAllPosts(query) {
-  console.log(query);
+  // console.log(query);
   let tmpPosts = [];
   let i = 1;
 
   const newQuery = `
-    ${process.env.MAIN_REST_API}/posts?_embed&per_page=${
+    ${process.env.MAIN_REST_API}/${query.type ? query.type : 'posts'}?_embed&per_page=${
     query.per_page ? query.per_page : process.env.PER_PAGES
   }&page=${query.page ? query.page : i}&categories=${
     query.categories ? query.categories : []
@@ -55,7 +55,7 @@ export async function getAllPosts(query) {
     query.search ? query.search : ''
   }
     `;
-  console.log(newQuery);
+  // console.log(newQuery);
   // tmpPosts = await this.$axios.$get(newQuery);
   const res = await fetch(newQuery);
   tmpPosts = await res.json();
@@ -67,14 +67,15 @@ export async function getAllPosts(query) {
 // ==================================================
 // getAllPostSlugs
 // ==================================================
-export async function getAllPostSlugs() {
+export async function getAllPostSlugs(type = 'posts') {
   // let slugs = [];
+  // console.log(type);
   const i = 1;
   // for (let i = 1; i < 12; i++) {
   // const element = array[index];
-  const res = await fetch(`${process.env.MAIN_REST_API}/posts?per_page=100&page=${i}&_embed=1`);
+  const res = await fetch(`${process.env.MAIN_REST_API}/${type}?per_page=100&page=${i}&_embed=1`);
   const tmp = await res.json();
-  //   console.log(tmp[0]);
+  console.log(tmp);
   //   for (let n of tmp) {
   //     slugs.push(n.slug);
   //   }
@@ -92,11 +93,15 @@ export async function getAllPostSlugs() {
 // ==================================================
 // getPost
 // ==================================================
-export async function getPost(slug) {
-  const res = await fetch(`${process.env.MAIN_REST_API}/posts?_embed&slug=${slug}`);
+export async function getPost(query) {
+  // console.log(query);
+  const res = await fetch(
+    `${process.env.MAIN_REST_API}/${query.type ? query.type : 'posts'}?_embed&slug=${query.slug}`
+  );
   const tmp = await res.json();
   // console.log(post[0]);
   const tmpPost = tmp[0];
+  tmpPost.thumb = tmpPost._embedded['wp:featuredmedia'][0].source_url;
   // console.log(tmpPost.name);
 
   return tmpPost;
@@ -163,8 +168,8 @@ export async function getAllTagSlugs() {
 // getTagData
 // ==================================================
 export async function getTagData(slug = '') {
-  console.log('tag');
-  console.log(slug);
+  // console.log('tag');
+  // console.log(slug);
   const res = await fetch(`${process.env.MAIN_REST_API}/tags?_embed&slug=${slug}&per_page=100`);
   const tmp = await res.json();
   return tmp;

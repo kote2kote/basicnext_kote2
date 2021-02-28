@@ -12,9 +12,9 @@ export default function Index({ props }) {
     <LayoutDefault title='Index' menuData={props.menusData}>
       <main className='main w-full'>
         <div className='inner px-8'>
-          <h2 className='c-tail'>{props.postData.title.rendered}</h2>
+          <h2 className='c-tail mb-8'>{props.postData.title.rendered}</h2>
           <div className='inner'>
-            <div className='w-full flex pb-8'>
+            {/* <div className='w-full flex pb-8'>
               <div className='inline-block pr-2'>
                 <span className='font-bold'>カテゴリ: </span>
                 <span className='inline-block px-1'>
@@ -35,7 +35,7 @@ export default function Index({ props }) {
                   </span>
                 ))}
               </div>
-            </div>
+            </div> */}
 
             <div className='text-center pb-12'>
               <Image
@@ -55,7 +55,7 @@ export default function Index({ props }) {
 }
 
 export async function getStaticPaths() {
-  const paths = await getAllPostSlugs();
+  const paths = await getAllPostSlugs('pages');
 
   return {
     paths,
@@ -69,7 +69,7 @@ export async function getStaticProps({ params }) {
 
   let query = {};
   query.slug = await params.slug;
-  query.type = 'posts';
+  query.type = 'pages';
   console.log(query);
   props.postData = await getPost(query);
 
