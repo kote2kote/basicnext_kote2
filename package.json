@@ -10,7 +10,12 @@
   "dependencies": {
     "@nano-sql/core": "^2.3.7",
     "@reduxjs/toolkit": "^1.5.0",
+    "imagemin-mozjpeg": "^9.0.0",
+    "imagemin-optipng": "^8.0.0",
+    "imagemin-svgo": "^9.0.0",
     "next": "10.0.7",
+    "next-compose-plugins": "^2.2.1",
+    "next-optimized-images": "^2.6.2",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-hook-form": "^6.15.4",

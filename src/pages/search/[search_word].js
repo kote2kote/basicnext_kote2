@@ -3,6 +3,9 @@ import { getAllPosts, getMenuData } from 'lib/api';
 import PostList from 'components/common/PostList';
 
 export default function SearchWord({ props }) {
+  if (!props) {
+    return <div>Loading...</div>;
+  }
   return (
     <LayoutDefault title='Search' menuData={props.menusData}>
       <main className='main w-full'>
@@ -26,14 +29,7 @@ export async function getServerSideProps(context) {
   let query = [];
   if (keyword) {
     query = {
-      type: 'posts',
-      // orderby: 'date',
-      // per_page: process.env.blogNumOfDis,
-      // page: 1,
-      // categories: category[0].id,
-      // tags: tag[0].id,
       search: keyword,
-      // _embed: 1,
     };
 
     props.allPostsData = await getAllPosts(query);

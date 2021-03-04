@@ -3,12 +3,9 @@ import { getAllPosts, getMenuData, getAllTagSlugs, getTagData } from 'lib/api';
 import PostList from 'components/common/PostList';
 
 export default function Tag({ props }) {
-  // if (!props) {
-  //   console.log('bbb');
-  //   return '';
-  // }
-  // console.log(props.allPostsData);
-  // console.log('ccc');
+  if (!props) {
+    return <div>Loading...</div>;
+  }
   return (
     <LayoutDefault title='Tag' menuData={props.menusData}>
       <main className='main w-full'>
@@ -48,14 +45,7 @@ export async function getStaticProps({ params }) {
   let query = [];
   if (tmpData.length !== 0) {
     query = {
-      type: 'posts',
-      // orderby: 'date',
-      // per_page: process.env.blogNumOfDis,
-      // page: 1,
-      // categories: tmpCatData[0].id,
       tags: tmpData[0].id,
-      // search: '',
-      // _embed: 1,
       info: `tag getStaticProps ${tmpData[0].slug}`,
     };
     props.allPostsData = await getAllPosts(query);

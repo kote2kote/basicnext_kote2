@@ -3,12 +3,9 @@ import { getAllPosts, getMenuData, getCatData, getAllCatSlugs } from 'lib/api';
 import PostList from 'components/common/PostList';
 
 export default function Category({ props }) {
-  // if (!props) {
-  //   console.log('bbb');
-  //   return '';
-  // }
-  // console.log(props.allPostsData);
-  // console.log('ccc');
+  if (!props) {
+    return <div>Loading...</div>;
+  }
   return (
     <LayoutDefault title='Category' menuData={props.menusData}>
       <main className='main w-full'>
@@ -49,13 +46,7 @@ export async function getStaticProps({ params }) {
   if (tmpCatData.length !== 0) {
     query = {
       type: 'posts',
-      // orderby: 'date',
-      // per_page: process.env.blogNumOfDis,
-      // page: 1,
       categories: tmpCatData[0].id,
-      // tags: [],
-      // search: '',
-      // _embed: 1,
       info: `category getStaticProps ${tmpCatData[0].slug}`,
     };
     props.allPostsData = await getAllPosts(query);

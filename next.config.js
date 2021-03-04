@@ -7,6 +7,6 @@ module.exports = {
       process.env.NODE_ENV === 'production' ? process.env.PROD_MENU_API : process.env.DEV_MENU_API,
   },
   images: {
-    domains: ['localhost', 'kote2tokyo.kote2.co'],
+    domains: ['localhost', 'basic.kote2.co'],
   },
 };

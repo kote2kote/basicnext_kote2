@@ -2,9 +2,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import uniqid from 'uniqid';
 export default function PostList({ propsPosts }) {
-  // console.log('ああ');
-  // console.log(propsPosts[0]);
-  // console.log('ああ');
   function setWordCount(str, l = 80) {
     if (str.length > l) {
       str = str.substring(0, l - 1) + '…';
@@ -30,11 +27,10 @@ export default function PostList({ propsPosts }) {
                     alt=''
                     className='object-cover'
                   />
-                  {/* <img class="w-full" :src="n.featured_image.src" alt="" /> */}
                 </figure>
                 <div className='w-full px-6'>
                   <div dangerouslySetInnerHTML={{ __html: setWordCount(n.excerpt.rendered) }}></div>
-                  {/* <div>{n.id}</div> */}
+
                   <div className='pt-4'>
                     <span className='font-bold'>カテゴリ: </span>
                     <span className='inline-block px-1'>
@@ -53,17 +49,6 @@ export default function PostList({ propsPosts }) {
                         </Link>
                       </span>
                     ))}
-                    {/* <span
-                  v-for="nn of n.tags"
-                  :key="nn.id"
-                  class="inline-block px-1"
-                >
-                  <nuxt-link
-                    class="relative underline"
-                    :to="`/tag/${nn.slug}`"
-                    >{{ nn.name }}</nuxt-link
-                  >
-                </span> */}
                   </div>
                 </div>
               </div>

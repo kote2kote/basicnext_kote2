@@ -4,7 +4,7 @@ import fetch from 'node-fetch';
 // getMenuData
 // ==================================================
 export async function getMenuData() {
-  const res = await fetch(process.env.MAIN_MENU_API);
+  const res = await fetch(new URL(process.env.MAIN_MENU_API));
   const res2 = await res.json();
   const tmpMenuData = res2.items;
   const tmpCatData = await getCatData(); // menuにはslugがないのでカテゴリデータのslugを結合
@@ -56,9 +56,9 @@ export async function getAllPosts(query) {
     query.search ? query.search : ''
   }
     `;
-  // console.log(newQuery);
+  console.log(newQuery);
   // tmpPosts = await this.$axios.$get(newQuery);
-  const res = await fetch(newQuery);
+  const res = await fetch(new URL(newQuery));
   tmpPosts = await res.json();
   // console.log(tmpPosts);
 
@@ -69,20 +69,25 @@ export async function getAllPosts(query) {
 // getAllPostSlugs
 // ==================================================
 export async function getAllPostSlugs(type = 'posts') {
-  // let slugs = [];
+  let slugs = [];
   // console.log(type);
   const i = 1;
   // for (let i = 1; i < 12; i++) {
   // const element = array[index];
-  const res = await fetch(`${process.env.MAIN_REST_API}/${type}?per_page=100&page=${i}&_embed=1`);
+  const res = await fetch(
+    new URL(`${process.env.MAIN_REST_API}/${type}?per_page=100&page=${i}&_embed=1`)
+  );
   const tmp = await res.json();
-  console.log(tmp);
-  //   for (let n of tmp) {
-  //     slugs.push(n.slug);
-  //   }
+
+  for (let n of tmp) {
+    if (n.title.rendered.indexOf('page-dir') === -1) {
+      // タイトルにpage-dirが入るものは除く
+      slugs.push(n.slug);
+    }
+  }
   // }
 
-  return tmp.map((slug) => {
+  return slugs.map((slug) => {
     return {
       params: {
         slug: String(slug),
@@ -97,13 +102,21 @@ export async function getAllPostSlugs(type = 'posts') {
 export async function getPost(query) {
   // console.log(query);
   const res = await fetch(
-    `${process.env.MAIN_REST_API}/${query.type ? query.type : 'posts'}?_embed&slug=${query.slug}`
+    new URL(
+      `${process.env.MAIN_REST_API}/${query.type ? query.type : 'posts'}?_embed&slug=${query.slug}`
+    )
   );
   const tmp = await res.json();
   // console.log(post[0]);
   const tmpPost = tmp[0];
-  tmpPost.thumb = tmpPost._embedded['wp:featuredmedia'][0].source_url;
-  // console.log(tmpPost.name);
+  // console.log(tmpPost);
+  let tmpPhoto = '';
+  if (tmpPost._embedded['wp:featuredmedia'][0]) {
+    tmpPhoto = tmpPost._embedded['wp:featuredmedia'][0].source_url;
+  } else {
+    tmpPhoto = 'https://basic.kote2.co/wp-content/uploads/2021/02/screenshot.png';
+  }
+  tmpPost.thumb = tmpPhoto;
 
   return tmpPost;
 }
@@ -112,7 +125,7 @@ export async function getPost(query) {
 // getAllCatSlugs
 // ==================================================
 export async function getAllCatSlugs() {
-  const res = await fetch(`${process.env.MAIN_REST_API}/categories?_embed&per_page=100`);
+  const res = await fetch(new URL(`${process.env.MAIN_REST_API}/categories?_embed&per_page=100`));
   const tmp = await res.json();
   // console.log(tmp);
 
@@ -136,7 +149,7 @@ export async function getAllCatSlugs() {
 // getCatData
 // ==================================================
 export async function getCatData(slug = '') {
-  const res = await fetch(`${process.env.MAIN_REST_API}/categories?_embed&slug=${slug}`);
+  const res = await fetch(new URL(`${process.env.MAIN_REST_API}/categories?_embed&slug=${slug}`));
   const tmp = await res.json();
   // console.log(tmp);
   // const tmpCatData = tmp[0];
@@ -149,7 +162,7 @@ export async function getCatData(slug = '') {
 // getAllTagSlugs
 // ==================================================
 export async function getAllTagSlugs() {
-  const res = await fetch(`${process.env.MAIN_REST_API}/tags?_embed&per_page=100`);
+  const res = await fetch(new URL(`${process.env.MAIN_REST_API}/tags?_embed&per_page=100`));
   const tmp = await res.json();
 
   let tags = [];
@@ -171,7 +184,9 @@ export async function getAllTagSlugs() {
 export async function getTagData(slug = '') {
   // console.log('tag');
   // console.log(slug);
-  const res = await fetch(`${process.env.MAIN_REST_API}/tags?_embed&slug=${slug}&per_page=100`);
+  const res = await fetch(
+    new URL(`${process.env.MAIN_REST_API}/tags?_embed&slug=${slug}&per_page=100`)
+  );
   const tmp = await res.json();
   return tmp;
 }
