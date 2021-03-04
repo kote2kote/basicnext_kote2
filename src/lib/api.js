@@ -9,8 +9,9 @@ export async function getMenuData() {
   const tmpMenuData = res2.items;
   const tmpCatData = await getCatData(); // menuにはslugがないのでカテゴリデータのslugを結合
 
+  // --------------------------------------------------
   // ディレクトリ名とスラッグを結合
-  // ================================= //
+  // --------------------------------------------------
   let tmpMenuDataEdit = [];
   for (const n of tmpMenuData) {
     // カテゴリーの場合
