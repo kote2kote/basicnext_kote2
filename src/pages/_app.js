@@ -1,6 +1,7 @@
 // redux
 import { Provider } from 'react-redux';
 import store from '../../store';
+// import GoogleTagManager from '../common/components/utils/GoogleTagManager';
 
 // style
 import 'tailwindcss/tailwind.css';
@@ -11,6 +12,11 @@ function MyApp({ Component, pageProps }) {
     <Provider store={store}>
       <Component {...pageProps} />
     </Provider>
+    //   <Provider store={store}>
+    //   <GoogleTagManager>
+    //     <Component {...pageProps} />
+    //   </GoogleTagManager>
+    // </Provider>
   );
 }
 

@@ -7,7 +7,7 @@ export default function Category({ props }) {
     return <div>Loading...</div>;
   }
   return (
-    <LayoutDefault title='Category' menuData={props.menusData}>
+    <LayoutDefault title={`カテゴリ: ${props.name}`} desc='概要' menuData={props.menusData}>
       <main className='main w-full'>
         <div className='inner px-8'>
           <h2 className='c-tail mb-8'>カテゴリ: {props.name}</h2>

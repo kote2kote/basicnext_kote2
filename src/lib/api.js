@@ -50,17 +50,15 @@ export async function getAllPosts(query) {
   const newQuery = `
     ${process.env.MAIN_REST_API}/${query.type ? query.type : 'posts'}?_embed&per_page=${
     query.per_page ? query.per_page : process.env.PER_PAGES
-  }&page=${query.page ? query.page : i}&categories=${
-    query.categories ? query.categories : []
-  }&categories_exclude=1&tags=${query.tags ? query.tags : []}&search=${
+  }&page=${query.page ? query.page : i}&categories_exclude=1&search=${
     query.search ? query.search : ''
-  }
+  }${query.categories ? '&categories=' + query.categories : []}
+    ${query.tags ? '&tags=' + query.tags : []}
     `;
-  console.log(newQuery);
-  // tmpPosts = await this.$axios.$get(newQuery);
+
+  // console.log(newQuery);
   const res = await fetch(new URL(newQuery));
   tmpPosts = await res.json();
-  // console.log(tmpPosts);
 
   return tmpPosts;
 }

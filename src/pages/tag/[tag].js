@@ -7,7 +7,7 @@ export default function Tag({ props }) {
     return <div>Loading...</div>;
   }
   return (
-    <LayoutDefault title='Tag' menuData={props.menusData}>
+    <LayoutDefault title={`タグ: ${props.name}`} desc='概要' menuData={props.menusData}>
       <main className='main w-full'>
         <div className='inner px-8'>
           <h2 className='c-tail mb-8'>タグ: {props.name}</h2>

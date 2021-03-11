@@ -9,7 +9,12 @@ export default function Index({ props }) {
     return <div>Loading...</div>;
   }
   return (
-    <LayoutDefault title='Index' menuData={props.menusData}>
+    <LayoutDefault
+      title={props.postData.title.rendered}
+      thumb={props.postData.featured_image.src}
+      desc={props.postData.excerpt.rendered}
+      menuData={props.menusData}
+    >
       <main className='main w-full'>
         <div className='inner px-8'>
           <h2 className='c-tail'>{props.postData.title.rendered}</h2>
