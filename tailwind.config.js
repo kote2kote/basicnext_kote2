@@ -9,36 +9,36 @@ module.exports = {
 
       // tb 481px
       maxtb: { max: '481px' }, // max-width: 481px
-      tb: '481px', // min-width: 481px
-      onlytb: { min: '481px', max: '800px' },
+      mintb: '481px', // min-width: 481px
+      tb: { min: '481px', max: '800px' },
 
       // pc 801px
       maxpc: { max: '800px' },
-      pc: '801px',
+      minpc: '801px',
 
       // sm 640px
       maxsm: { max: '640px' },
-      sm: '640px',
-      onlysm: { min: '640px', max: '767px' },
+      minsm: '641px',
+      sm: { min: '641px', max: '767px' },
 
       // md 768px
       maxmd: { max: '767px' },
-      md: '768px',
-      onlymd: { min: '768px', max: '1199px' },
+      minmd: '768px',
+      md: { min: '768px', max: '1023px' },
 
-      // lg 1200px
-      maxlg: { max: '1199px' },
-      lg: '1200px',
-      onlylg: { min: '1200px', max: '1439px' },
+      // lg 1024px
+      maxlg: { max: '1023px' },
+      minlg: '1024px',
+      lg: { min: '1024px', max: '1279px' },
 
-      // xl 1440px
-      maxxl: { max: '1439px' },
-      xl: '1440px',
-      onlyxl: { min: '1440px', max: '1799px' },
+      // xl 1280px
+      maxxl: { max: '1279px' },
+      minxl: '1280px',
+      xl: { min: '1280px', max: '1599px' },
 
-      // wide 1800px
-      maxwide: { max: '1799px' },
-      wide: '1800px',
+      // wide 1600px
+      maxwide: { max: '1599px' },
+      minwide: '1600px',
     },
     extend: {},
   },
